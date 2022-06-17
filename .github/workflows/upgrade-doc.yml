@@ -15,7 +15,7 @@ jobs:
           python-version: '3.9'
       
       - name: Install python dependencies
-        run: pip install json json-schema-for-humans
+        run: pip install json-schema-for-humans
 
       - name: Generate documentation from JSON schema files
         run: cd docs/schemas; generate-schema-doc ../../interfaces/jsonschema/ --link-to-reused-ref --expand-buttons --deprecated-from-description
