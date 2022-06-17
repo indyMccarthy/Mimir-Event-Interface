@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.mimir</groupId>
+    <artifactId>mimir-event-interface</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <kafka.client.version>3.1.0</kafka.client.version>
+        <jackson.databind.version>2.13.2.2</jackson.databind.version>
+        <jackson.datatype.joda.version>2.13.2</jackson.datatype.joda.version>
+        <jackson.datatype.jsr310.version>2.13.2</jackson.datatype.jsr310.version>
+        <joda.version>2.10.14</joda.version>
+        <findbugs.jsr305.version>3.0.2</findbugs.jsr305.version>
+        <javax.validation.api.version>2.0.1.Final</javax.validation.api.version>
+        <junit.jupiter.version>5.8.2</junit.jupiter.version>
+        <kafka.junit.version>3.1.0</kafka.junit.version>
+        <jsonschema2pojo.version>1.1.1</jsonschema2pojo.version>
+    </properties>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients -->
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>${kafka.client.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.databind.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-joda</artifactId>
+            <version>${jackson.datatype.joda.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson.datatype.jsr310.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>${joda.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.google.code.findbugs/jsr305 -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>${findbugs.jsr305.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${javax.validation.api.version}</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/net.mguenther.kafka/kafka-junit -->
+        <dependency>
+            <groupId>net.mguenther.kafka</groupId>
+            <artifactId>kafka-junit</artifactId>
+            <version>${kafka.junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jsonschema2pojo</groupId>
+                <artifactId>jsonschema2pojo-maven-plugin</artifactId>
+                <version>${jsonschema2pojo.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <sourceDirectory>${project.basedir}/interfaces/jsonschema</sourceDirectory>
+                    <targetPackage>org.mimir</targetPackage>
+                    <outputDirectory>${project.build.directory}/generated-sources/</outputDirectory>
+                    <!-- I cannot use primitive if I want Null for non initialized numeric -->
+                    <usePrimitives>false</usePrimitives>
+                    <useTitleAsClassname>true</useTitleAsClassname>
+                    <useJodaDates>true</useJodaDates>
+                    <includeJsr305Annotations>true</includeJsr305Annotations>
+                    <includeJsr303Annotations>true</includeJsr303Annotations>
+                    <includeDynamicAccessors>true</includeDynamicAccessors>
+                    <includeCopyConstructor>true</includeCopyConstructor>
+                    <includeConstructors>true</includeConstructors>
+                    <generateBuilders>true</generateBuilders>
+                    <includeDynamicBuilders>true</includeDynamicBuilders>
+                    <useInnerClassBuilders>true</useInnerClassBuilders>
+                    <includeAdditionalProperties>true</includeAdditionalProperties>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>a0ng6kgsmsmve-artifactory-primary-0-releases</name>
+            <url>https://mimir.jfrog.io/artifactory/mimir-libs-release-local</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>a0ng6kgsmsmve-artifactory-primary-0-snapshots</name>
+            <url>https://mimir.jfrog.io/artifactory/mimir-libs-snapshot-local</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+</project>
