@@ -1,0 +1,28 @@
+name: Mimir Interface - Build and Deploy maven package
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+jobs:
+  build-n-deploy-jar:
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'zulu'
+      
+      - name: Get tag name
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Override version in POM.xml then package
+        run: mvn versions:set -DnewVersion=${{ env.RELEASE_VERSION }} clean test package
+
+      - name: Deploy to Artifactory Package Registry
+        env:
+          ARTIFACTORY_USER: ${{ secrets.ARTIFACTORY_USER }}
+          ARTIFACTORY_PWD: ${{ secrets.ARTIFACTORY_PWD }}
+        run: mvn --settings .mvn/settings.xml deploy

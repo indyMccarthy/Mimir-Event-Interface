@@ -1,0 +1,35 @@
+{
+  "schema": "KafkaMessageJson",
+  "title": "KafkaMessageJson",
+  "description": "A product from the catalog",
+  "type": "object",
+  "properties": {
+    "identifier": {
+      "description": "Id.",
+      "maxLength": 20,
+      "minLength": 1,
+      "type": "string"
+    },
+    "messageDate": {
+      "description": "Date.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "messageContent": {
+      "description": "Message.",
+      "maxLength": 100,
+      "minLength": 1,
+      "type": "string"
+    },
+    "randomNum": {
+      "description": "Positive float test",
+      "type": "number",
+      "format": "float",
+      "minimum": 0,
+      "exclusiveMinimum": true
+    }
+  },
+  "required": [
+    "identifier"
+  ]
+}

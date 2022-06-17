@@ -1,0 +1,28 @@
+{
+  "schema": "KafkaMessageJsonLessFields",
+  "title": "KafkaMessageJsonLessFields",
+  "description": "A product from the catalog",
+  "type": "object",
+  "properties": {
+    "identifier": {
+      "description": "Id.",
+      "maxLength": 20,
+      "minLength": 1,
+      "type": "string"
+    },
+    "messageDate": {
+      "description": "Date.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "messageContent": {
+      "description": "Message.",
+      "maxLength": 100,
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "identifier"
+  ]
+}

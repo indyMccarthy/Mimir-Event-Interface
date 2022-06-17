@@ -1,0 +1,35 @@
+name: Mimir Interface CICD - Update documentation
+
+on:
+  push:
+    branch:
+      - main
+
+jobs:
+  refresh-doc:
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+      
+      - name: Install python dependencies
+        run: pip install json json-schema-for-humans
+
+      - name: Generate documentation from JSON schema files
+        run: cd docs/schemas; generate-schema-doc ../../interfaces/jsonschema/ --link-to-reused-ref --expand-buttons --deprecated-from-description
+
+      - name: Update README with the list of available schemas
+        run: |
+          cd docs
+          python3 update_readme_doc.py ./schemas/ > README.md
+      
+      - name: Commit and push docs changes
+        run: |
+          git config --global user.name ${{ secrets.CI_USER }}
+          git config --global user.email ${{ secrets.CI_PWD }}
+
+          git add -A
+          git commit -m "Update schemas documentation"
+          git push

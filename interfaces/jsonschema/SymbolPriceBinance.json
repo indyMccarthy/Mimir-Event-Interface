@@ -1,0 +1,29 @@
+{
+  "schema": "SymbolPriceBinance",
+  "title": "SymbolPriceBinance",
+  "description": "Contains informations about the price of a symbol retrieved from Binance API /api/v3/ticker/price",
+  "type": "object",
+  "properties": {
+    "symbol": {
+      "description": "The symbol's ID.",
+      "maxLength": 10,
+      "minLength": 2,
+      "type": "string"
+    },
+    "datetime": {
+      "description": "The moment when the symbol's price has been retrieved.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "price": {
+      "description": "The pricing linked to the symbol for this datetime.",
+      "type": "number",
+      "format": "double",
+      "minimum": 0,
+      "exclusiveMinimum": true
+    }
+  },
+  "required": [
+    "symbol"
+  ]
+}
